@@ -1,25 +1,25 @@
-export enum Page {
-  Landing = "landing",
-  Login = "login",
-  Dashboard = "dashboard",
-  Workouts = "workouts",
-  Diet = "diet",
-  Mood = "mood",
-  Habits = "habits",
-  Profile = "profile",
-}
 
 export interface User {
-  id: string;
-  name: string;
+  id: number;
+  username: string;
   email: string;
   xp: number;
 }
 
+export interface UserProfile {
+  height: number; // in cm
+  weight: number; // in kg
+  goal: 'muscle_gain' | 'fat_loss' | 'maintain';
+  dietPreference: 'veg' | 'non-veg' | 'vegan';
+  avatar?: string; // selected emoji
+}
+
 export interface Workout {
   id: string;
-  name: string;
+  type: string;
+  duration: number;
   calories: number;
+  date: string;
 }
 
 export interface Meal {
@@ -27,6 +27,7 @@ export interface Meal {
   name: string;
   calories: number;
   protein: number;
+  date: string;
 }
 
 export interface Habit {
@@ -38,10 +39,17 @@ export interface Habit {
 export interface MoodLog {
   id: string;
   score: number;
+  note: string;
+  date: string;
 }
 
-export interface UserProfile {
-  name: string;
-  weight: number;
-  goal: "fat_loss" | "muscle_gain" | "maintenance";
+export enum Page {
+  Landing = 'landing',
+  Dashboard = 'dashboard',
+  Workouts = 'workouts',
+  Diet = 'diet',
+  Mood = 'mood',
+  Habits = 'habits',
+  Profile = 'profile',
+  AICoach = 'ai_coach'
 }

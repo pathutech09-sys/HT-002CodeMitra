@@ -5,9 +5,10 @@ import { Meal } from '../types';
 interface DietTrackerProps {
   meals: Meal[];
   onAdd: (meal: Meal) => void;
+  onDelete: (id: string) => void;
 }
 
-const DietTracker: React.FC<DietTrackerProps> = ({ meals, onAdd }) => {
+const DietTracker: React.FC<DietTrackerProps> = ({ meals, onAdd, onDelete }) => {
   const [name, setName] = useState('');
   const [calories, setCalories] = useState('');
   const [protein, setProtein] = useState('');
@@ -91,14 +92,25 @@ const DietTracker: React.FC<DietTrackerProps> = ({ meals, onAdd }) => {
               <div className="p-8 text-center text-gray-400">No meals logged for today.</div>
             ) : (
               meals.map(meal => (
-                <div key={meal.id} className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-                  <div>
+                <div key={meal.id} className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors group">
+                  <div className="flex-1">
                     <p className="font-bold text-indigo-950">{meal.name}</p>
                     <p className="text-xs text-gray-500">{meal.date}</p>
                   </div>
-                  <div className="text-right">
-                    <p className="font-bold text-indigo-600">{meal.calories} kcal</p>
-                    <p className="text-xs text-gray-400">{meal.protein}g protein</p>
+                  <div className="flex items-center gap-6">
+                    <div className="text-right">
+                      <p className="font-bold text-indigo-600">{meal.calories} kcal</p>
+                      <p className="text-xs text-gray-400">{meal.protein}g protein</p>
+                    </div>
+                    <button 
+                      onClick={() => onDelete(meal.id)}
+                      className="text-gray-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
+                      title="Delete meal"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
               ))
