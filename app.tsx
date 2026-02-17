@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Page, User, Workout, Meal, Habit, MoodLog, UserProfile } from './types';
 import Landing from './components/Landing';
-import Auth from './components/Auth';
+import Auth from './components/auth123';
 import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
 import WorkoutTracker from './components/WorkoutTracker';
