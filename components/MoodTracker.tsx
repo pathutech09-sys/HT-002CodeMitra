@@ -6,15 +6,17 @@ import { MOOD_EMOJIS } from '../constants';
 interface MoodTrackerProps {
   moods: MoodLog[];
   onLog: (mood: MoodLog) => void;
+  onDelete: (id: string) => void;
 }
 
-const MoodTracker: React.FC<MoodTrackerProps> = ({ moods, onLog }) => {
+const MoodTracker: React.FC<MoodTrackerProps> = ({ moods, onLog, onDelete }) => {
   const [selectedMood, setSelectedMood] = useState<number | null>(null);
   const [note, setNote] = useState('');
 
   const handleLog = () => {
     if (selectedMood === null) return;
     onLog({
+      id: Date.now().toString(),
       score: selectedMood,
       note,
       date: new Date().toLocaleDateString(),
@@ -77,8 +79,8 @@ const MoodTracker: React.FC<MoodTrackerProps> = ({ moods, onLog }) => {
           {moods.length === 0 ? (
             <p className="text-center py-10 text-gray-400">No mood entries yet.</p>
           ) : (
-            moods.slice().reverse().map((log, i) => (
-              <div key={i} className="bg-white p-4 rounded-xl border border-gray-100 flex items-center gap-4">
+            moods.slice().reverse().map((log) => (
+              <div key={log.id} className="bg-white p-4 rounded-xl border border-gray-100 flex items-center gap-4 group">
                 <span className="text-3xl">
                   {MOOD_EMOJIS.find(e => e.score === log.score)?.emoji}
                 </span>
@@ -88,7 +90,17 @@ const MoodTracker: React.FC<MoodTrackerProps> = ({ moods, onLog }) => {
                   </p>
                   <p className="text-xs text-gray-500 line-clamp-1">{log.note || 'No note added'}</p>
                 </div>
-                <span className="text-[10px] text-gray-400 font-bold">{log.date}</span>
+                <div className="flex flex-col items-end gap-1">
+                  <span className="text-[10px] text-gray-400 font-bold">{log.date}</span>
+                  <button 
+                    onClick={() => onDelete(log.id)}
+                    className="text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             ))
           )}

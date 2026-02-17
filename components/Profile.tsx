@@ -10,13 +10,16 @@ interface ProfileProps {
   onUpdateProfile: (p: UserProfile) => void;
 }
 
+const AVATAR_OPTIONS = ['🏃', '🧘', '🏋️', '🚴', '🥋', '🥗', '🍎', '💪', '🔥', '🧠', '✨', '🏆'];
+
 const Profile: React.FC<ProfileProps> = ({ user, workouts, profile, onUpdateProfile }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [tempProfile, setTempProfile] = useState<UserProfile>(profile || {
     height: 175,
     weight: 70,
     goal: 'maintain',
-    dietPreference: 'veg'
+    dietPreference: 'veg',
+    avatar: '🏃'
   });
 
   const xp = user?.xp || 0;
@@ -31,25 +34,63 @@ const Profile: React.FC<ProfileProps> = ({ user, workouts, profile, onUpdateProf
     setIsEditing(true);
   };
 
-  // If no profile and not editing, show empty state
+  // Improved Empty State for Profile Setup
   if (!profile && !isEditing) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-white rounded-3xl p-10 shadow-xl border border-gray-100 text-center space-y-6">
-          <div className="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center text-4xl mx-auto">
-            👤
+      <div className="min-h-[70vh] flex items-center justify-center p-4">
+        <div className="max-w-xl w-full bg-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl shadow-indigo-100 border border-indigo-50/50 text-center relative overflow-hidden">
+          {/* Decorative Background Elements */}
+          <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-50 rounded-full blur-3xl opacity-50"></div>
+          <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-purple-50 rounded-full blur-3xl opacity-50"></div>
+
+          <div className="relative z-10 space-y-8">
+            {/* Visual Indicator */}
+            <div className="relative mx-auto w-32 h-32">
+              <div className="absolute inset-0 bg-indigo-600 rounded-3xl rotate-6 opacity-10 animate-pulse"></div>
+              <div className="absolute inset-0 bg-indigo-600 rounded-3xl -rotate-3 opacity-20"></div>
+              <div className="relative w-full h-full bg-white rounded-3xl border-2 border-indigo-100 flex items-center justify-center text-6xl shadow-inner">
+                👤
+                <div className="absolute -top-2 -right-2 bg-yellow-400 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center text-sm font-bold animate-bounce">
+                  !
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <h2 className="text-3xl font-extrabold text-indigo-950 tracking-tight">Complete Your Profile</h2>
+              <p className="text-gray-500 text-lg leading-relaxed max-w-sm mx-auto">
+                Unlock personalized tracking and AI coaching by telling us a bit about yourself.
+              </p>
+            </div>
+
+            {/* Benefits List */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left max-w-md mx-auto">
+              {[
+                { icon: '🎯', text: 'Custom Calorie Goals' },
+                { icon: '🥗', text: 'Tailored Diet Plans' },
+                { icon: '📈', text: 'Precise BMI Tracking' },
+                { icon: '✨', text: 'Smart AI Insights' }
+              ].map((benefit, idx) => (
+                <div key={idx} className="flex items-center gap-3 p-3 bg-gray-50 rounded-2xl border border-gray-100">
+                  <span className="text-xl">{benefit.icon}</span>
+                  <span className="text-sm font-semibold text-indigo-900">{benefit.text}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-4 space-y-4">
+              <button 
+                onClick={startSetup}
+                className="w-full bg-indigo-600 text-white font-bold py-5 rounded-2xl hover:bg-indigo-700 shadow-xl shadow-indigo-200 transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3"
+              >
+                Get Started Now
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </button>
+              <p className="text-[11px] text-gray-400 uppercase font-bold tracking-[0.2em]">Takes less than 30 seconds</p>
+            </div>
           </div>
-          <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-indigo-950">Set up your profile</h2>
-            <p className="text-gray-500">To provide personalized calorie goals and nutrition plans, we need a few details about your physical stats and fitness objectives.</p>
-          </div>
-          <button 
-            onClick={startSetup}
-            className="w-full bg-indigo-600 text-white font-bold py-4 rounded-2xl hover:bg-indigo-700 shadow-lg shadow-indigo-100 transition-all transform hover:-translate-y-1 active:scale-95"
-          >
-            Get Started
-          </button>
-          <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Takes less than 30 seconds</p>
         </div>
       </div>
     );
@@ -61,15 +102,18 @@ const Profile: React.FC<ProfileProps> = ({ user, workouts, profile, onUpdateProf
       <div className="bg-indigo-600 rounded-3xl p-8 text-white relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
           <div className="relative">
-            <div className="w-24 h-24 rounded-full border-4 border-white/30 flex items-center justify-center text-4xl bg-white/10 backdrop-blur-sm">
-              {levelData.icon}
+            <div className="w-24 h-24 rounded-full border-4 border-white/30 flex items-center justify-center text-5xl bg-white/10 backdrop-blur-sm shadow-xl">
+              {profile?.avatar || levelData.icon}
             </div>
             <div className="absolute -bottom-2 -right-2 bg-yellow-400 text-indigo-900 font-bold text-xs px-2 py-1 rounded-full shadow-lg">
               LVL {Math.floor(xp / 500) + 1}
             </div>
           </div>
           <div className="text-center md:text-left flex-1">
-            <h2 className="text-3xl font-bold text-white">{user?.username}</h2>
+            <h2 className="text-3xl font-bold text-white flex items-center justify-center md:justify-start gap-2">
+               {user?.username}
+               <span className="text-xl opacity-80">{levelData.icon}</span>
+            </h2>
             <p className="text-indigo-100 font-medium">{levelData.name} Fitness Enthusiast</p>
             <div className="mt-4 max-w-md">
               <div className="flex justify-between text-xs mb-1 font-bold">
@@ -120,64 +164,87 @@ const Profile: React.FC<ProfileProps> = ({ user, workouts, profile, onUpdateProf
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-1">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Height (cm)</p>
-              {isEditing ? (
-                <input 
-                  type="number" 
-                  value={tempProfile.height}
-                  onChange={e => setTempProfile({...tempProfile, height: parseInt(e.target.value)})}
-                  className="w-full border-b-2 border-indigo-200 py-1 outline-none text-indigo-950 font-bold bg-transparent"
-                />
-              ) : (
-                <p className="text-lg font-bold text-indigo-950">{profile?.height || '---'} cm</p>
-              )}
-            </div>
-            <div className="space-y-1">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Weight (kg)</p>
-              {isEditing ? (
-                <input 
-                  type="number" 
-                  value={tempProfile.weight}
-                  onChange={e => setTempProfile({...tempProfile, weight: parseInt(e.target.value)})}
-                  className="w-full border-b-2 border-indigo-200 py-1 outline-none text-indigo-950 font-bold bg-transparent"
-                />
-              ) : (
-                <p className="text-lg font-bold text-indigo-950">{profile?.weight || '---'} kg</p>
-              )}
-            </div>
-            <div className="space-y-1">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Goal</p>
-              {isEditing ? (
-                <select 
-                  value={tempProfile.goal}
-                  onChange={e => setTempProfile({...tempProfile, goal: e.target.value as any})}
-                  className="w-full border-b-2 border-indigo-200 py-1 outline-none text-indigo-950 font-bold bg-transparent"
-                >
-                  <option value="muscle_gain">Muscle Gain</option>
-                  <option value="fat_loss">Fat Loss</option>
-                  <option value="maintain">Maintain</option>
-                </select>
-              ) : (
-                <p className="text-lg font-bold text-indigo-950">{profile?.goal.replace('_', ' ').toUpperCase() || '---'}</p>
-              )}
-            </div>
-            <div className="space-y-1">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Diet</p>
-              {isEditing ? (
-                <select 
-                  value={tempProfile.dietPreference}
-                  onChange={e => setTempProfile({...tempProfile, dietPreference: e.target.value as any})}
-                  className="w-full border-b-2 border-indigo-200 py-1 outline-none text-indigo-950 font-bold bg-transparent"
-                >
-                  <option value="veg">Vegetarian</option>
-                  <option value="non-veg">Non-Vegetarian</option>
-                  <option value="vegan">Vegan</option>
-                </select>
-              ) : (
-                <p className="text-lg font-bold text-indigo-950">{profile?.dietPreference.toUpperCase() || '---'}</p>
-              )}
+          <div className="space-y-6">
+            {isEditing && (
+              <div className="space-y-3">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Choose Your Avatar</p>
+                <div className="grid grid-cols-6 gap-2">
+                  {AVATAR_OPTIONS.map(emoji => (
+                    <button
+                      key={emoji}
+                      onClick={() => setTempProfile({...tempProfile, avatar: emoji})}
+                      className={`text-2xl p-2 rounded-xl border-2 transition-all ${
+                        tempProfile.avatar === emoji 
+                          ? 'border-indigo-600 bg-indigo-50 scale-110' 
+                          : 'border-transparent bg-gray-50 hover:bg-gray-100'
+                      }`}
+                    >
+                      {emoji}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="grid grid-cols-2 gap-6">
+              <div className="space-y-1">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Height (cm)</p>
+                {isEditing ? (
+                  <input 
+                    type="number" 
+                    value={tempProfile.height}
+                    onChange={e => setTempProfile({...tempProfile, height: parseInt(e.target.value)})}
+                    className="w-full border-b-2 border-indigo-200 py-1 outline-none text-indigo-950 font-bold bg-transparent"
+                  />
+                ) : (
+                  <p className="text-lg font-bold text-indigo-950">{profile?.height || '---'} cm</p>
+                )}
+              </div>
+              <div className="space-y-1">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Weight (kg)</p>
+                {isEditing ? (
+                  <input 
+                    type="number" 
+                    value={tempProfile.weight}
+                    onChange={e => setTempProfile({...tempProfile, weight: parseInt(e.target.value)})}
+                    className="w-full border-b-2 border-indigo-200 py-1 outline-none text-indigo-950 font-bold bg-transparent"
+                  />
+                ) : (
+                  <p className="text-lg font-bold text-indigo-950">{profile?.weight || '---'} kg</p>
+                )}
+              </div>
+              <div className="space-y-1">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Goal</p>
+                {isEditing ? (
+                  <select 
+                    value={tempProfile.goal}
+                    onChange={e => setTempProfile({...tempProfile, goal: e.target.value as any})}
+                    className="w-full border-b-2 border-indigo-200 py-1 outline-none text-indigo-950 font-bold bg-transparent"
+                  >
+                    <option value="muscle_gain">Muscle Gain</option>
+                    <option value="fat_loss">Fat Loss</option>
+                    <option value="maintain">Maintain</option>
+                  </select>
+                ) : (
+                  <p className="text-lg font-bold text-indigo-950">{profile?.goal.replace('_', ' ').toUpperCase() || '---'}</p>
+                )}
+              </div>
+              <div className="space-y-1">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Diet</p>
+                {isEditing ? (
+                  <select 
+                    value={tempProfile.dietPreference}
+                    onChange={e => setTempProfile({...tempProfile, dietPreference: e.target.value as any})}
+                    className="w-full border-b-2 border-indigo-200 py-1 outline-none text-indigo-950 font-bold bg-transparent"
+                  >
+                    <option value="veg">Vegetarian</option>
+                    <option value="non-veg">Non-Vegetarian</option>
+                    <option value="vegan">Vegan</option>
+                  </select>
+                ) : (
+                  <p className="text-lg font-bold text-indigo-950">{profile?.dietPreference.toUpperCase() || '---'}</p>
+                )}
+              </div>
             </div>
           </div>
         </div>
