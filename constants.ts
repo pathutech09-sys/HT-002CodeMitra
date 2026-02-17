@@ -18,3 +18,10 @@ export const DUMMY_BADGES = [
     icon: "🔥",
   },
 ];
+export const MOOD_EMOJIS = [
+  { emoji: "😄", label: "Happy" },
+  { emoji: "🙂", label: "Good" },
+  { emoji: "😐", label: "Okay" },
+  { emoji: "😔", label: "Sad" },
+  { emoji: "😡", label: "Angry" },
+];
