@@ -8,7 +8,7 @@ import Dashboard from './components/Dashboard';
 import WorkoutTracker from './components/WorkoutTracker';
 import DietTracker from './components/DietTracker';
 import MoodTracker from './components/MoodTracker';
-import HabitTracker from './components/HabitTracker';
+import HabitTracker from './components/habit123';
 import Profile from './components/Profile';
 
 const App: React.FC = () => {
