@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface LandingProps {
@@ -11,36 +10,27 @@ const Landing: React.FC<LandingProps> = ({ onGetStarted }) => {
       {/* Hero Section */}
       <header className="px-6 py-4 flex justify-between items-center max-w-7xl mx-auto">
         <h1 className="text-2xl font-bold text-indigo-600">FitMitra</h1>
-        <button 
-          onClick={onGetStarted}
-          className="text-indigo-600 font-bold hover:text-indigo-700"
-        >
-          Login
-        </button>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 pt-12 md:pt-24 pb-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
             <span className="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-full text-sm font-bold tracking-wide">
-              HACKATHON MVP v1.0
+              FITNESS PLATFORM v1.0
             </span>
             <h2 className="text-5xl md:text-7xl font-extrabold text-gray-900 leading-tight">
               Holistic Health, <span className="text-indigo-600">Simplified.</span>
             </h2>
             <p className="text-xl text-gray-600 leading-relaxed max-w-md">
               FitMitra is your all-in-one companion for tracking workouts, diet, habits, and mental wellness. 
-              Built for results, powered by AI motivation.
+              Open access, no signup required.
             </p>
             <div className="flex gap-4">
               <button 
                 onClick={onGetStarted}
                 className="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-indigo-700 shadow-xl shadow-indigo-200 transition-all transform hover:-translate-y-1"
               >
-                Join the Movement
-              </button>
-              <button className="bg-gray-50 text-gray-600 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all">
-                Learn More
+                Go to Dashboard
               </button>
             </div>
             <div className="flex items-center gap-4 text-sm text-gray-400">
@@ -49,7 +39,7 @@ const Landing: React.FC<LandingProps> = ({ onGetStarted }) => {
                   <img key={i} src={`https://picsum.photos/32/32?random=${i}`} className="w-8 h-8 rounded-full border-2 border-white" alt="user" />
                 ))}
               </div>
-              <span>Joined by 1,000+ early adopters</span>
+              <span>Used by 1,000+ fitness warriors</span>
             </div>
           </div>
           <div className="relative">
@@ -70,16 +60,16 @@ const Landing: React.FC<LandingProps> = ({ onGetStarted }) => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h3 className="text-3xl font-bold mb-4">Everything you need in one place</h3>
-            <p className="text-gray-500 max-w-xl mx-auto">Stop juggling five different apps. Track your entire well-being cycle with FitMitra.</p>
+            <p className="text-gray-500 max-w-xl mx-auto">Track your entire well-being cycle with FitMitra. No barrier to entry.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { title: 'Workout Logging', desc: 'Detailed tracking for any exercise type.', icon: '💪' },
               { title: 'Nutrition Mapping', desc: 'Track calories and macros with ease.', icon: '🥗' },
-              { title: 'Mental Wellness', desc: 'Daily mood tracking and AI advice.', icon: '🧠' },
-              { title: 'Habit Formation', desc: 'Build lasting routines with streaks.', icon: '📅' },
+              { title: 'Mental Wellness', desc: 'Daily mood tracking and insights.', icon: '🧠' },
+              { title: 'Habit Formation', desc: 'Build lasting routines with ease.', icon: '📅' },
               { title: 'Gamified Growth', desc: 'Earn badges and level up your health.', icon: '🏆' },
-              { title: 'AI Motivation', desc: 'Personalized quotes based on data.', icon: '✨' },
+              { title: 'Always Free', desc: 'No accounts, no friction, just results.', icon: '✨' },
             ].map((f, i) => (
               <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                 <span className="text-4xl mb-4 block">{f.icon}</span>
